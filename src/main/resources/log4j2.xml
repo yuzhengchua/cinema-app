@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    
+    <!-- Define custom properties -->
+    <Properties>
+        <Property name="logDir">logs</Property>
+        <Property name="logPattern">%d{ISO8601} %-5p [%t] %c{1} - %m%n</Property>
+    </Properties>
+
+    <!-- Appender definitions -->
+    <Appenders>
+        
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${logPattern}" />
+        </Console>
+
+        <!-- Rolling File Appender -->
+        <RollingFile name="RollingFile" fileName="${logDir}/app.log"
+                     filePattern="${logDir}/app-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${logPattern}" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB" />
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+            <DefaultRolloverStrategy max="7" />
+        </RollingFile>
+
+    </Appenders>
+
+    <!-- Loggers -->
+    <Loggers>
+        
+        <!-- Root Logger -->
+        <Root level="info">
+            <AppenderRef ref="RollingFile" />
+        </Root>
+
+        <!-- Custom Loggers with different levels of tracing -->
+        <!-- <Logger name="com.example" level="trace" additivity="false">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
+        </Logger> -->
+    </Loggers>
+
+</Configuration>
