@@ -11,6 +11,7 @@ import com.yuzhengchua.cinema.models.SeatMap;
 import com.yuzhengchua.cinema.service.BookingServiceImpl;
 import com.yuzhengchua.cinema.service.CinemaWorkflowService;
 import com.yuzhengchua.cinema.util.InputValidator;
+import com.yuzhengchua.cinema.util.MovieSeatMapGenerator;
 
 /**
  * The CinemaAppRunner class is responsible for initializing the cinema
@@ -85,9 +86,10 @@ public class CinemaAppRunner implements CommandLineRunner {
 
         // Validate the input format
         if (InputValidator.isValidSeatMapFormat(parts)) {
-            title = parts[0];
-            rows = Integer.parseInt(parts[1]);
-            seatsPerRow = Integer.parseInt(parts[2]);
+            String[] movieString = MovieSeatMapGenerator.generateMovieSeatMap(parts);
+            title = movieString[0];
+            rows = Integer.parseInt(movieString[1]);
+            seatsPerRow = Integer.parseInt(movieString[2]);
 
             // Check if row and seat count are valid
             if (InputValidator.isValidRowAndSeats(rows, seatsPerRow)) {

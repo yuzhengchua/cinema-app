@@ -153,6 +153,11 @@ public class CinemaWorkflowService {
                 try {
                     String bookingStatus = bookingService.checkBooking(input);
                     System.out.println(bookingStatus);
+                    promptCancellation();
+                    String cancel = scanner.nextLine();
+                    if (cancel.equalsIgnoreCase("Y")) {
+                        confirmCancellation(input);
+                    }
                     break;
                 } catch (IllegalArgumentException e) {
                     System.out.println("Unexpected error ocurred. Please try again");
@@ -185,13 +190,21 @@ public class CinemaWorkflowService {
     private int[][] bookingFlow(int seatsToBook, String designatedSeats, String bookingId)
             throws IllegalArgumentException {
         int[][] plannedCoordinates = bookingService.planSeats(seatsToBook, designatedSeats);
-        logger.debug("Planned seats for booking ID {}: {}", bookingId, (Object) plannedCoordinates);
+        logger.info("Planned seats for booking ID {}: {}", bookingId, (Object) plannedCoordinates);
         System.out.println("Booking id:" + bookingId);
         System.out.println("Selected seats:");
         System.out.println(bookingService.printSeatMapPlan());
         System.out.println("Enter blank to accept seat selection, or enter new seating position:");
 
         return plannedCoordinates;
+    }
+
+    private void promptCancellation() {
+        System.out.println("Would you like to cancel this booking? Y to confirm:");
+    }
+
+    private void confirmCancellation(String bookingId) {
+        bookingService.cancelBooking(bookingId);
     }
 
     /**

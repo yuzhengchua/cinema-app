@@ -90,6 +90,10 @@ public class BookingServiceImpl implements BookingService {
         return true;
     }
 
+    public void cancelBooking(String bookingId) {
+        System.out.println("Cancel Booking");
+    }
+
     /**
      * Plans the seats to be booked based on the number of seats and the designated
      * seat.
