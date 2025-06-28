@@ -221,7 +221,7 @@ class CinemaWorkflowServiceTest {
         cinemaWorkflowService.runCaseTwo();
 
         
-        verify(mockScanner, times(2)).nextLine();
+        verify(mockScanner, times(3)).nextLine();
         verify(mockBookingService, times(2)).checkBooking(anyString());
 
     }
