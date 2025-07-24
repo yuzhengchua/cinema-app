@@ -42,7 +42,21 @@ public class CinemaAppRunner implements CommandLineRunner {
     /**
      * Scanner instance for reading user input from the console.
      */
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner;
+
+    /**
+     * Default constructor using System.in.
+     */
+    public CinemaAppRunner() {
+        this(new Scanner(System.in));
+    }
+
+    /**
+     * Constructor for injecting a custom Scanner (for testing).
+     */
+    public CinemaAppRunner(Scanner scanner) {
+        this.scanner = scanner;
+    }
 
     /**
      * This method is executed on startup and initiates the process of defining the
@@ -72,7 +86,7 @@ public class CinemaAppRunner implements CommandLineRunner {
      * correct format.
      * </p>
      */
-    private void initialiseCinema() {
+    void initialiseCinema() {
         logger.info("GIC Cinemas application started.");
         BookingServiceImpl bookingService;
         CinemaWorkflowService cinemaWorkflowService;

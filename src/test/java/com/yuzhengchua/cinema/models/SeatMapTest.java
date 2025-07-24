@@ -25,4 +25,20 @@ class SeatMapTest {
 
         assertArrayEquals(expectedMap,actualMap);
 	}
+    @Test
+    void testSetAndGetAvailableSeats() {
+        seatMap.setAvailableSeats(3);
+        assert(seatMap.getAvailableSeats() == 3);
+    }
+    @Test
+    void testSetAndGetSeatMapArr() {
+        int[][] newMap = {{1,0},{0,1}};
+        seatMap.setSeatMapArr(newMap);
+        assertArrayEquals(newMap, seatMap.getSeatMapArr());
+    }
+    @Test
+    void testGetRowsAndSeatsPerRow() {
+        assert(seatMap.getRows() == 2);
+        assert(seatMap.getSeatsPerRow() == 2);
+    }
 }
