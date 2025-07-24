@@ -23,7 +23,6 @@ class CinemaAppRunnerTest {
     private final PrintStream originalOut = System.out;
 
     static class TestExitException extends RuntimeException {}
-    interface ExitHandler { void exit(); }
     static class TestExitHandler implements ExitHandler {
         public void exit() { throw new TestExitException(); }
     }
