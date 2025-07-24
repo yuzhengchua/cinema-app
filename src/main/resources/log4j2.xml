@@ -32,7 +32,7 @@
     <Loggers>
         
         <!-- Root Logger -->
-        <Root level="info">
+        <Root level="trace">
             <AppenderRef ref="RollingFile" />
         </Root>
 

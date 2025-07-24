@@ -1,6 +1,7 @@
 package com.yuzhengchua.cinema.util;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -13,10 +14,11 @@ class InputValidatorTest {
         assert(InputValidator.isValidSeatMapFormat("Movie 5 10".split(" ")));
         assertFalse(InputValidator.isValidSeatMapFormat(null));
         assertFalse(InputValidator.isValidSeatMapFormat("Movie 5".split(" ")));
-        assertFalse(InputValidator.isValidSeatMapFormat("Movie 5 10 20".split(" ")));
         assertFalse(InputValidator.isValidSeatMapFormat("Movie-a 5 10".split(" ")));
         assertFalse(InputValidator.isValidSeatMapFormat("Movie asd 10".split(" ")));
         assertFalse(InputValidator.isValidSeatMapFormat("Movie 10 asd".split(" ")));
+        assertTrue(InputValidator.isValidSeatMapFormat("Movie with a space 10 10".split(" ")));
+        assertTrue(InputValidator.isValidSeatMapFormat("Movie 5 10 20".split(" ")));
     }   
 
     @Test

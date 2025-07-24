@@ -147,13 +147,33 @@ class CinemaWorkflowServiceTest {
         
         when(mockBookingService.getBookingIdCache()).thenReturn(bookingIdCache);
         when(mockBookingService.checkBooking("GIC0001")).thenReturn("MOCK");
-        when(mockScanner.nextLine()).thenReturn("GIC0001"); 
+        when(mockScanner.nextLine()).thenReturn("GIC0001");
+
 
         
         cinemaWorkflowService.runCaseTwo();
 
         
-        verify(mockScanner).nextLine();
+        verify(mockScanner, times(2)).nextLine();
+        verify(mockBookingService).checkBooking(anyString()); 
+    }
+
+    @Test
+    void testRunCaseTwoWithCancellation() {
+        HashMap<String,int[][]> bookingIdCache = new HashMap<>();
+        bookingIdCache.put("GIC0001", new int[][]{{1,1}});
+        
+        when(mockBookingService.getBookingIdCache()).thenReturn(bookingIdCache);
+        when(mockBookingService.checkBooking("GIC0001")).thenReturn("MOCK");
+        when(mockScanner.nextLine()).thenReturn("GIC0001", "Y");
+        
+
+        
+        cinemaWorkflowService.runCaseTwo();
+
+        
+        verify(mockScanner, times(2)).nextLine();
+        verify(mockBookingService).cancelBooking(anyString());
         verify(mockBookingService).checkBooking(anyString()); 
     }
 
@@ -180,13 +200,13 @@ class CinemaWorkflowServiceTest {
         
         when(mockBookingService.getBookingIdCache()).thenReturn(bookingIdCache);
         when(mockBookingService.checkBooking("GIC0001")).thenReturn("MOCK");
-        when(mockScanner.nextLine()).thenReturn("INVALID_ID", "GIC0001");
+        when(mockScanner.nextLine()).thenReturn("INVALID_ID", "GIC0001", "N");
 
         
         cinemaWorkflowService.runCaseTwo();
 
         
-        verify(mockScanner, times(2)).nextLine();
+        verify(mockScanner, times(3)).nextLine();
         verify(mockBookingService, times(1)).checkBooking(anyString());
     }
 
@@ -201,7 +221,7 @@ class CinemaWorkflowServiceTest {
         cinemaWorkflowService.runCaseTwo();
 
         
-        verify(mockScanner, times(2)).nextLine();
+        verify(mockScanner, times(3)).nextLine();
         verify(mockBookingService, times(2)).checkBooking(anyString());
 
     }

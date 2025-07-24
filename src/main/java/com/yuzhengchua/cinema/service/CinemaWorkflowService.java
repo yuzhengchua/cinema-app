@@ -5,6 +5,7 @@ import java.util.Scanner;
 import com.yuzhengchua.cinema.enums.Actions;
 import com.yuzhengchua.cinema.models.SeatMap;
 import com.yuzhengchua.cinema.util.InputValidator;
+import com.yuzhengchua.cinema.service.ExitHandler;
 
 /**
  * The {@code CinemaWorkflowService} class handles the interaction with the user
@@ -19,6 +20,13 @@ import com.yuzhengchua.cinema.util.InputValidator;
  * 
  * @since 1.0
  */
+// Production implementation
+class SystemExitHandler implements ExitHandler {
+    public void exit() {
+        System.exit(0);
+    }
+}
+
 public class CinemaWorkflowService {
     /**
      * Logger
@@ -47,20 +55,22 @@ public class CinemaWorkflowService {
     private String title;
 
     /**
-     * Constructs a new {@code CinemaWorkflowService} with the provided scanner,
-     * booking service, seat map, and movie title.
-     * 
-     * @param scanner        The scanner instance used for reading user input.
-     * @param bookingService The booking service used for seat bookings.
-     * @param seatMap        The seat map representing the cinema seating
-     *                       arrangement.
-     * @param title          The title of the movie being shown in the cinema.
+     * The handler for exiting the application.
      */
+    private final ExitHandler exitHandler;
+
+    // Production constructor
     public CinemaWorkflowService(Scanner scanner, BookingServiceImpl bookingService, SeatMap seatMap, String title) {
+        this(scanner, bookingService, seatMap, title, new SystemExitHandler());
+    }
+
+    // Testable constructor
+    public CinemaWorkflowService(Scanner scanner, BookingServiceImpl bookingService, SeatMap seatMap, String title, ExitHandler exitHandler) {
         this.scanner = scanner;
         this.bookingService = bookingService;
         this.seatMap = seatMap;
         this.title = title;
+        this.exitHandler = exitHandler;
         logger.info("CinemaWorkflowService initialized with movie title: {}", title);
     }
 
@@ -153,6 +163,11 @@ public class CinemaWorkflowService {
                 try {
                     String bookingStatus = bookingService.checkBooking(input);
                     System.out.println(bookingStatus);
+                    promptCancellation();
+                    String cancel = scanner.nextLine();
+                    if (cancel.equalsIgnoreCase("Y")) {
+                        confirmCancellation(input);
+                    }
                     break;
                 } catch (IllegalArgumentException e) {
                     System.out.println("Unexpected error ocurred. Please try again");
@@ -185,13 +200,21 @@ public class CinemaWorkflowService {
     private int[][] bookingFlow(int seatsToBook, String designatedSeats, String bookingId)
             throws IllegalArgumentException {
         int[][] plannedCoordinates = bookingService.planSeats(seatsToBook, designatedSeats);
-        logger.debug("Planned seats for booking ID {}: {}", bookingId, (Object) plannedCoordinates);
+        logger.info("Planned seats for booking ID {}: {}", bookingId, (Object) plannedCoordinates);
         System.out.println("Booking id:" + bookingId);
         System.out.println("Selected seats:");
         System.out.println(bookingService.printSeatMapPlan());
         System.out.println("Enter blank to accept seat selection, or enter new seating position:");
 
         return plannedCoordinates;
+    }
+
+    private void promptCancellation() {
+        System.out.println("Would you like to cancel this booking? Y to confirm:");
+    }
+
+    private void confirmCancellation(String bookingId) {
+        bookingService.cancelBooking(bookingId);
     }
 
     /**
@@ -244,7 +267,8 @@ public class CinemaWorkflowService {
                 case "3":
                     logger.info("User exited the system.");
                     System.out.println("Thank you for using GIC Cinemas system. Bye!");
-                    System.exit(0);
+                    exitHandler.exit();
+                    break;
                 default:
                     logger.warn("User entered invalid menu option: {}", input);
                     System.out.println("Invalid selection. Please enter a number between 1 and 3.");
