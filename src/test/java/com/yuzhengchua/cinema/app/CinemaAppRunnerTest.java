@@ -43,9 +43,8 @@ class CinemaAppRunnerTest {
 
     @Test
     void testInitialiseCinemaWithValidInput() {
-        // This will go into CinemaWorkflowService.listActions() which loops forever, so we only test up to valid input
-        Mockito.when(mockScanner.nextLine()).thenReturn("Movie 5 5");
-        // To avoid infinite loop, we can mock CinemaWorkflowService if refactored, but for now, just check output up to that point
+        // First input for cinema setup, second input for menu selection (exit)
+        Mockito.when(mockScanner.nextLine()).thenReturn("Movie 5 5", "3");
         assertDoesNotThrow(() -> runner.initialiseCinema());
         String output = outContent.toString();
         assertFalse(output.contains("Invalid input. Please provide a valid format"));
