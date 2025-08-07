@@ -2,6 +2,10 @@ package com.yuzhengchua.cinema.service;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -367,6 +371,40 @@ class BookingServiceImplTest {
                                 { 1, 1, 1, 1, 1 },
                                 { 1, 1, 1, 1, 1 }
                 }, seatMap.getSeatMapArr());
+        }
+
+        @Test
+        void testCancelBookingRemovesBookingAndFreesSeats() {
+                // Arrange: Book 2 seats
+                int[][] seats = bookingServiceImpl.planSeats(2, "A01");
+                bookingServiceImpl.confirmBooking(seats);
+                String bookingId = bookingServiceImpl.getBookingIdCache().keySet().iterator().next();
+                assertNotNull(bookingServiceImpl.getBookingIdCache().get(bookingId));
+                int availableBefore = bookingServiceImpl.getSeatMap().getAvailableSeats();
+                // Act: Cancel booking
+                bookingServiceImpl.cancelBooking(bookingId);
+                // Assert: Booking is removed
+                assertNull(bookingServiceImpl.getBookingIdCache().get(bookingId));
+                // Assert: Seats are available again
+                int availableAfter = bookingServiceImpl.getSeatMap().getAvailableSeats();
+                assertEquals(availableBefore + 2, availableAfter);
+        }
+
+        @Test
+        void testCancelNonExistentBookingThrows() {
+                Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+                        bookingServiceImpl.cancelBooking("NONEXISTENT");
+                });
+                assertTrue(exception.getMessage().contains("not found"));
+        }
+
+        @Test
+        void testCheckBookingAfterCancellationThrows() {
+                int[][] seats = bookingServiceImpl.planSeats(1, "A01");
+                bookingServiceImpl.confirmBooking(seats);
+                String bookingId = bookingServiceImpl.getBookingIdCache().keySet().iterator().next();
+                bookingServiceImpl.cancelBooking(bookingId);
+                assertThrows(IllegalArgumentException.class, () -> bookingServiceImpl.checkBooking(bookingId));
         }
 
         public int[][] planSeats(int seatsToBook, String designatedSeat) {

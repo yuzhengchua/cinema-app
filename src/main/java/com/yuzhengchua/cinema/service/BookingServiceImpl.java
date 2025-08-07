@@ -91,7 +91,19 @@ public class BookingServiceImpl implements BookingService {
     }
 
     public void cancelBooking(String bookingId) {
-        System.out.println("Cancel Booking");
+        if (!bookingIdCache.containsKey(bookingId)) {
+            throw new IllegalArgumentException("Booking ID not found: " + bookingId);
+        }
+        int[][] seats = bookingIdCache.get(bookingId);
+        // Free up seats
+        for (int[] seat : seats) {
+            seatMapPlanArr[seat[0]][seat[1]] = 0;
+            seatMap.getSeatMapArr()[seat[0]][seat[1]] = 0;
+        }
+        // Update available seats
+        seatMap.setAvailableSeats(seatMap.getAvailableSeats() + seats.length);
+        // Remove booking from cache
+        bookingIdCache.remove(bookingId);
     }
 
     /**
