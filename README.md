@@ -53,6 +53,25 @@ java -jar target/cinema-0.0.1-SNAPSHOT.jar
 mvn test
 ```
 
+## 📊 Code Quality & Analysis
+
+This project is integrated with **SonarCloud** for continuous code quality analysis and code coverage tracking.
+
+### SonarCloud Configuration
+
+The project includes SonarCloud integration which provides:
+- Code quality metrics
+- Security vulnerability detection
+- Code coverage reports (via JaCoCo)
+- Technical debt tracking
+
+**Note:** To enable SonarCloud analysis in GitHub Actions, the following secret must be configured in the repository settings:
+- `SONAR_TOKEN` - Your SonarCloud token for authentication
+
+You can manually run SonarCloud analysis locally using:
+```cmd
+mvn clean verify sonar:sonar -Dsonar.token=YOUR_SONAR_TOKEN
+```
 
 ### 🛠️ Troubleshooting
 Ensure `JAVA_HOME` is properly set and points to JDK 17
