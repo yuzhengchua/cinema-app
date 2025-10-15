@@ -1,6 +1,5 @@
 package com.yuzhengchua.cinema.util;
 
-import java.util.Arrays;
 
 import org.apache.logging.log4j.Logger;
 

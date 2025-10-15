@@ -5,7 +5,6 @@ import java.util.Scanner;
 import com.yuzhengchua.cinema.enums.Actions;
 import com.yuzhengchua.cinema.models.SeatMap;
 import com.yuzhengchua.cinema.util.InputValidator;
-import com.yuzhengchua.cinema.service.ExitHandler;
 
 /**
  * The {@code CinemaWorkflowService} class handles the interaction with the user
