@@ -1,6 +1,9 @@
 package com.yuzhengchua.cinema.util;
 
 public class ExtraFunctions {
+    private ExtraFunctions() {
+        throw new UnsupportedOperationException("Utility class");
+    }
     public static int add(int a, int b) {
         return a + b;
     }
