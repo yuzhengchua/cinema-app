@@ -35,4 +35,6 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=yuzhengchua_cinema-app
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        # run: mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=yuzhengchua_cinema-app
+          run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=yuzhengchua_cinema-app_92d66cc0-43e0-4f71-ba22-a5d36121c2f9 -Dsonar.projectName='cinema-app'
