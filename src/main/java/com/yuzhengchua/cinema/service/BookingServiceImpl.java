@@ -135,7 +135,7 @@ public class BookingServiceImpl implements BookingService {
         } else if (InputValidator.isValidChosenSeat(designatedSeat)) {
             int row = seatMap.getRows() - 1 - (designatedSeat.toUpperCase().charAt(0) - 'A');
             int col = Integer.parseInt(designatedSeat.substring(1)) - 1;
-            logger.debug("Parsed designated seat to coordinates: row={}, col={}", row, col);
+            logger.debug("NEW CODE HERE Parsed designated seat to coordinates: row={}, col={}", row, col);
             if (row < 0 || col >= seatMap.getSeatsPerRow()) {
                 logger.error("Designated seat exceeded boundaries: {}", designatedSeat);
                 throw new IllegalArgumentException("Designated seat exceeded boundaries: " + designatedSeat);
