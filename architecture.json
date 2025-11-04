@@ -1,6 +1,7 @@
 {
     "perspectives": [
         {
+            "label": "FileOrg",
             "constraints": [
                 {
                     "message": "Service classes should not depend on Model classes",
