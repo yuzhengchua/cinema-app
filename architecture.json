@@ -1,0 +1,67 @@
+{
+    "perspectives": [
+        {
+            "constraints": [
+                {
+                    "message": "Service classes should not depend on Model classes",
+                    "from": ["All Source files/Service"],
+                    "to": ["All Source files/Model"]
+                }
+            ],
+            "description": "Perspective focusing on file organization",
+            "groups": [
+                {
+                    "label": "All Source files",
+                    "description": "Group for source code",
+                    "patterns": [
+                        "src/main/java/**/*.java"
+                    ],
+                    "groups": [
+                        {
+                            "label": "Main Runner",
+                            "description": "Main application runner files",
+                            "patterns": [
+                                "src/main/java/com/yuzhengchua/cinema/app/*.java"
+                            ]
+                        },
+                        {
+                            "label": "Constant",
+                            "description": "Constant classes",
+                            "patterns": [
+                                "src/main/java/com/yuzhengchua/cinema/constants/*.java"
+                            ]
+                        },
+                        {
+                            "label": "Enum",
+                            "description": "Enum classes",
+                            "patterns": [
+                                "src/main/java/com/yuzhengchua/cinema/enums/*.java"
+                            ]
+                        },
+                        {
+                            "label": "Model",
+                            "description": "Model classes",
+                            "patterns": [
+                                "src/main/java/com/yuzhengchua/cinema/models/*.java"
+                            ]
+                        },
+                        {
+                            "label": "Service",
+                            "description": "Service classes",
+                            "patterns": [
+                                "src/main/java/com/yuzhengchua/cinema/service/*.java"
+                            ]
+                        },
+                        {
+                            "label": "Util",
+                            "description": "Util classes",
+                            "patterns": [
+                                "src/main/java/com/yuzhengchua/cinema/utils/*.java"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
